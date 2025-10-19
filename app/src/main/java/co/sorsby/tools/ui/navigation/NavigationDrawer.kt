@@ -1,5 +1,6 @@
 package co.sorsby.tools.ui.navigation
 
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -29,17 +30,26 @@ import co.sorsby.tools.BuildConfig
 import co.sorsby.tools.ui.models.Screen
 
 @Composable
-fun MyDrawerContent(showDebug: Boolean, onNavigate: (String) -> Unit) {
+fun MyDrawerContent(onNavigate: (String) -> Unit) {
     ModalDrawerSheet {
         Column(
-            modifier = Modifier.padding(horizontal = 16.dp)
+            modifier = Modifier
+                .padding(horizontal = 16.dp)
                 .verticalScroll(rememberScrollState())
         ) {
             Spacer(Modifier.height(12.dp))
-            Text("Tools", modifier = Modifier.padding(16.dp), style = MaterialTheme.typography.titleLarge)
+            Text(
+                "Tools",
+                modifier = Modifier.padding(16.dp),
+                style = MaterialTheme.typography.titleLarge
+            )
             HorizontalDivider()
 
-            Text("Main Tools", modifier = Modifier.padding(16.dp), style = MaterialTheme.typography.titleMedium)
+            Text(
+                "Main Tools",
+                modifier = Modifier.padding(16.dp),
+                style = MaterialTheme.typography.titleMedium
+            )
             NavigationDrawerItem(
                 label = { Text("Home") },
                 selected = false,
@@ -50,24 +60,6 @@ fun MyDrawerContent(showDebug: Boolean, onNavigate: (String) -> Unit) {
                 selected = false,
                 onClick = { onNavigate(Screen.Http.route) }
             )
-
-            if (showDebug) {
-                Spacer(Modifier.height(12.dp))
-                HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
-                Text(
-                    "Debug Menu",
-                    modifier = Modifier.padding(16.dp),
-                    style = MaterialTheme.typography.titleMedium
-                )
-                NavigationDrawerItem(
-                    label = { Text("Settings") },
-                    selected = false,
-                    icon = { Icon(Icons.Outlined.Settings, contentDescription = null) },
-                    badge = { Text("20") }, // Placeholder
-                    onClick = { onNavigate(Screen.Debug.route) }
-                )
-                Spacer(Modifier.height(12.dp))
-            }
         }
     }
 }
@@ -75,48 +67,79 @@ fun MyDrawerContent(showDebug: Boolean, onNavigate: (String) -> Unit) {
 @Composable
 fun MyNavigationDrawer(
     drawerState: DrawerState,
-    showDebug: Boolean = BuildConfig.DEBUG,
     onNavigate: (String) -> Unit,
     content: @Composable () -> Unit,
 ) {
     ModalNavigationDrawer(
         drawerState = drawerState,
-        drawerContent = { MyDrawerContent(
-            showDebug,
-            onNavigate = onNavigate
-        ) }
+        drawerContent = {
+            MyDrawerContent(
+                onNavigate = onNavigate
+            )
+        }
     ) {
         content()
     }
 }
 
-@Preview(showBackground = true, name = "Open Drawer")
+@Preview(
+    showBackground = true,
+    showSystemUi = true,
+    name = "Open Drawer",
+    uiMode = Configuration.UI_MODE_NIGHT_NO
+)
 @Composable
-fun DrawerClosedPreview() {
+fun DrawerClosedLightModePreview() {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
-    MyNavigationDrawer(drawerState = drawerState, showDebug = false, onNavigate = {} ) {
+    MyNavigationDrawer(drawerState = drawerState, onNavigate = {}) {
         Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             Text("Main Content Area")
         }
     }
 }
 
-@Preview(showBackground = true, name = "Closed Drawer")
+@Preview(
+    showBackground = true,
+    showSystemUi = true,
+    name = "Open Drawer",
+    uiMode = Configuration.UI_MODE_NIGHT_YES
+)
 @Composable
-fun DrawerOpenPreview() {
-    val drawerState = rememberDrawerState(initialValue = DrawerValue.Open)
-    MyNavigationDrawer(drawerState = drawerState, showDebug = false, onNavigate = {} ) {
+fun DrawerClosedDarkModePreview() {
+    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+    MyNavigationDrawer(drawerState = drawerState, onNavigate = {}) {
         Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             Text("Main Content Area")
         }
     }
 }
 
-@Preview(showBackground = true, name = "Closed Drawer")
+@Preview(
+    showBackground = true,
+    showSystemUi = true,
+    name = "Closed Drawer",
+    uiMode = Configuration.UI_MODE_NIGHT_YES
+)
 @Composable
-fun DrawerOpenDebugPreview() {
+fun DrawerOpenDarkModePreview() {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Open)
-    MyNavigationDrawer(drawerState = drawerState, showDebug = true, onNavigate = {} ) {
+    MyNavigationDrawer(drawerState = drawerState, onNavigate = {}) {
+        Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            Text("Main Content Area")
+        }
+    }
+}
+
+@Preview(
+    showBackground = true,
+    showSystemUi = true,
+    name = "Closed Drawer",
+    uiMode = Configuration.UI_MODE_NIGHT_NO
+)
+@Composable
+fun DrawerOpenLightModePreview() {
+    val drawerState = rememberDrawerState(initialValue = DrawerValue.Open)
+    MyNavigationDrawer(drawerState = drawerState, onNavigate = {}) {
         Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             Text("Main Content Area")
         }

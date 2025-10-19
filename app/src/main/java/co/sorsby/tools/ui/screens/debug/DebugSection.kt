@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
+import androidx.compose.material3.DividerDefaults
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
@@ -62,7 +64,11 @@ fun DebugSection(
                     }
                 }
                 if (item != items.last()) {
-                    Divider(Modifier.padding(top = 4.dp))
+                    HorizontalDivider(
+                        Modifier.padding(top = 4.dp),
+                        DividerDefaults.Thickness,
+                        DividerDefaults.color
+                    )
                 }
             }
         }
