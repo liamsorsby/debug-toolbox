@@ -12,18 +12,19 @@ import co.sorsby.tools.ui.models.Screen
 import co.sorsby.tools.ui.screens.debug.DebugScreen
 import co.sorsby.tools.ui.screens.network.NetworkDebugScreen
 
-val bottomNavItems = mutableListOf(
-    NavigationItem(
-        label = "Home",
-        icon = Icons.Default.Home,
-        route = Screen.Home.route
-    ),
-    NavigationItem(
-        label = "Network",
-        icon = Icons.Default.Http,
-        route = Screen.Http.route
-    )
-).toList()
+val bottomNavItems =
+    mutableListOf(
+        NavigationItem(
+            label = "Home",
+            icon = Icons.Default.Home,
+            route = Screen.Home.route,
+        ),
+        NavigationItem(
+            label = "Network",
+            icon = Icons.Default.Http,
+            route = Screen.Http.route,
+        ),
+    ).toList()
 
 @Composable
 fun AppNavHost(navController: NavHostController) {

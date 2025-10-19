@@ -10,5 +10,5 @@ data class NetworkResponse(
     val tlsVersion: TlsVersion?,
     val cipherSuite: CipherSuite?,
     val certificates: List<String>?,
-    val certificateExpiryInfo: List<String>
+    val certificateExpiryInfo: List<String>,
 )

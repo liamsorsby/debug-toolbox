@@ -16,7 +16,6 @@ import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class DebugViewModelTest {
-
     private val testDispatcher = StandardTestDispatcher()
     private lateinit var viewModel: DebugViewModel
 
@@ -32,40 +31,45 @@ class DebugViewModelTest {
     }
 
     @Test
-    fun `initial state message is null`() = runTest {
-        val message = viewModel.message.first()
-        assertEquals(null, message)
-    }
+    fun `initial state message is null`() =
+        runTest {
+            val message = viewModel.message.first()
+            assertEquals(null, message)
+        }
 
     @Test
-    fun `showBuildInfo updates message with build info`() = runTest {
-        viewModel.showBuildInfo()
-        val message = viewModel.message.first()
-        assertTrue(message?.contains("Version:") == true)
-        assertTrue(message?.contains("Code:") == true)
-        assertTrue(message?.contains("Build Type:") == true)
-        assertTrue(message?.contains("Debug:") == true)
-    }
+    fun `showBuildInfo updates message with build info`() =
+        runTest {
+            viewModel.showBuildInfo()
+            val message = viewModel.message.first()
+            assertTrue(message?.contains("Version:") == true)
+            assertTrue(message?.contains("Code:") == true)
+            assertTrue(message?.contains("Build Type:") == true)
+            assertTrue(message?.contains("Debug:") == true)
+        }
 
     @Test
     fun `triggerCrash throws RuntimeException`() {
-        val exception = assertThrows(RuntimeException::class.java) {
-            viewModel.triggerCrash()
-        }
+        val exception =
+            assertThrows(RuntimeException::class.java) {
+                viewModel.triggerCrash()
+            }
         assertEquals("Fake crash triggered from DebugViewModel", exception.message)
     }
 
     @Test
-    fun `clearCache updates message`() = runTest {
-        viewModel.clearCache()
-        val message = viewModel.message.first()
-        assertEquals("Cache cleared", message)
-    }
+    fun `clearCache updates message`() =
+        runTest {
+            viewModel.clearCache()
+            val message = viewModel.message.first()
+            assertEquals("Cache cleared", message)
+        }
 
     @Test
-    fun `simulateNetworkError updates message`() = runTest {
-        viewModel.simulateNetworkError()
-        val message = viewModel.message.first()
-        assertEquals("Simulated network error", message)
-    }
+    fun `simulateNetworkError updates message`() =
+        runTest {
+            viewModel.simulateNetworkError()
+            val message = viewModel.message.first()
+            assertEquals("Simulated network error", message)
+        }
 }

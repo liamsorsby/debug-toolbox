@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -52,9 +51,9 @@ fun MyApp() {
                             drawerState.close()
                             navController.navigate(route)
                         }
-                    }
+                    },
                 )
-            }
+            },
         ) {
             Scaffold(
                 topBar = {
@@ -64,10 +63,10 @@ fun MyApp() {
                             IconButton(onClick = { scope.launch { drawerState.open() } }) {
                                 Icon(
                                     imageVector = Icons.Default.Menu,
-                                    contentDescription = "Open navigation drawer"
+                                    contentDescription = "Open navigation drawer",
                                 )
                             }
-                        }
+                        },
                     )
                 },
                 bottomBar = {
@@ -94,39 +93,43 @@ fun MyApp() {
                                                 onClick = { navController.navigate(item.route) },
                                                 onLongClick = {
                                                     navController.navigate(Screen.Debug.route)
-                                                }
+                                                },
                                             )
-                                        } else Modifier
+                                        } else {
+                                            Modifier
+                                        }
                                     Icon(
                                         item.icon,
                                         contentDescription = item.label,
-                                        modifier = iconModifier
+                                        modifier = iconModifier,
                                     )
                                 },
-                                label = { Text(item.label) }
+                                label = { Text(item.label) },
                             )
                         }
                     }
                 },
                 content = { innerPadding ->
                     Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(innerPadding),
-                        contentAlignment = Alignment.Center
+                        modifier =
+                            Modifier
+                                .fillMaxSize()
+                                .padding(innerPadding),
+                        contentAlignment = Alignment.Center,
                     ) {
                         AppNavHost(navController = navController)
                     }
-                }
+                },
             )
         }
     }
 }
 
 @Preview(
-    showBackground = true, showSystemUi = true,
+    showBackground = true,
+    showSystemUi = true,
     name = "MyApp Lightmode Preview",
-    uiMode = Configuration.UI_MODE_NIGHT_NO
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
 )
 @Composable
 fun MyAppPreviewLightMode() {
@@ -139,7 +142,7 @@ fun MyAppPreviewLightMode() {
     showBackground = true,
     showSystemUi = true,
     name = "MyApp Darkmode Preview",
-    uiMode = Configuration.UI_MODE_NIGHT_YES
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
 @Composable
 fun MyAppPreviewDarkMode() {

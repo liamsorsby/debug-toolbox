@@ -1,12 +1,25 @@
 package co.sorsby.tools.ui.screens.debug
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.BugReport
 import androidx.compose.material.icons.filled.Warning
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -19,12 +32,11 @@ import kotlinx.coroutines.launch
 @Composable
 fun DebugScreen(
     viewModel: DebugViewModel = viewModel(),
-    snackbarHostState: SnackbarHostState = remember { SnackbarHostState() }
+    snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
 ) {
     val message by viewModel.message.collectAsState()
     val scope = rememberCoroutineScope()
 
-    // Show snackbar when message updates
     LaunchedEffect(message) {
         message?.let {
             scope.launch { snackbarHostState.showSnackbar(it) }
@@ -37,39 +49,42 @@ fun DebugScreen(
                 title = { Text("Debug Tools") },
                 navigationIcon = {
                     Icon(Icons.Default.BugReport, contentDescription = null)
-                }
+                },
             )
         },
-        snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
     ) { innerPadding ->
         LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding)
-                .padding(horizontal = 16.dp, vertical = 12.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding)
+                    .padding(horizontal = 16.dp, vertical = 12.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             item {
                 DebugSection(
                     title = "App Diagnostics",
-                    items = listOf(
-                        DebugAction(
-                            "Trigger Fake Crash",
-                            Icons.Default.Warning
-                        ) { viewModel.triggerCrash() }
-                    )
+                    items =
+                        listOf(
+                            DebugAction(
+                                "Trigger Fake Crash",
+                                Icons.Default.Warning,
+                            ) { viewModel.triggerCrash() },
+                        ),
                 )
             }
 
             item {
                 DebugSection(
                     title = "System Info",
-                    items = listOf(
-                        DebugAction(
-                            "Show Build Info",
-                            Icons.Default.BugReport
-                        ) { viewModel.showBuildInfo() }
-                    )
+                    items =
+                        listOf(
+                            DebugAction(
+                                "Show Build Info",
+                                Icons.Default.BugReport,
+                            ) { viewModel.showBuildInfo() },
+                        ),
                 )
             }
         }

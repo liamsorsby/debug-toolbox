@@ -10,9 +10,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class NetworkDebugViewModel(
-    private val repository: NetworkRepository = NetworkRepository()
+    private val repository: NetworkRepository = NetworkRepository(),
 ) : ViewModel() {
-
     private val _response = MutableStateFlow<NetworkResponse?>(null)
     val response = _response.asStateFlow()
 
