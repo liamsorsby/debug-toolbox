@@ -18,10 +18,10 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DebugScreen(
-    viewModel: DebugViewModel = viewModel()
+    viewModel: DebugViewModel = viewModel(),
+    snackbarHostState: SnackbarHostState = remember { SnackbarHostState() }
 ) {
     val message by viewModel.message.collectAsState()
-    val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
 
     // Show snackbar when message updates
