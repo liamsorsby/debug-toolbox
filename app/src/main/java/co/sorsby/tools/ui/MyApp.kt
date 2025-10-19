@@ -22,8 +22,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
 import co.sorsby.tools.BuildConfig
-import co.sorsby.tools.navigation.AppNavHost
-import co.sorsby.tools.ui.components.navigation.MyDrawerContent
+import co.sorsby.tools.ui.navigation.AppNavHost
+import co.sorsby.tools.ui.navigation.MyDrawerContent
 import co.sorsby.tools.ui.theme.ToolsTheme
 import kotlinx.coroutines.launch
 

@@ -1,4 +1,4 @@
-package co.sorsby.tools.ui.components.navigation
+package co.sorsby.tools.ui.navigation
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -26,6 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import co.sorsby.tools.BuildConfig
+import co.sorsby.tools.ui.models.Screen
 
 @Composable
 fun MyDrawerContent(showDebug: Boolean, onNavigate: (String) -> Unit) {
@@ -42,12 +43,12 @@ fun MyDrawerContent(showDebug: Boolean, onNavigate: (String) -> Unit) {
             NavigationDrawerItem(
                 label = { Text("Home") },
                 selected = false,
-                onClick = { onNavigate("home") }
+                onClick = { onNavigate(Screen.Home.route) }
             )
             NavigationDrawerItem(
                 label = { Text("Network Debugging") },
                 selected = false,
-                onClick = { onNavigate("http") }
+                onClick = { onNavigate(Screen.Http.route) }
             )
 
             if (showDebug) {
@@ -63,7 +64,7 @@ fun MyDrawerContent(showDebug: Boolean, onNavigate: (String) -> Unit) {
                     selected = false,
                     icon = { Icon(Icons.Outlined.Settings, contentDescription = null) },
                     badge = { Text("20") }, // Placeholder
-                    onClick = { onNavigate("debug") }
+                    onClick = { onNavigate(Screen.Debug.route) }
                 )
                 Spacer(Modifier.height(12.dp))
             }
