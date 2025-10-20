@@ -1,34 +1,79 @@
 package co.sorsby.tools.ui.screens.debug
 
 import androidx.lifecycle.ViewModel
-import co.sorsby.tools.BuildConfig
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
+import co.sorsby.tools.data.local.UserSettingsRepository
+import com.google.firebase.crashlytics.FirebaseCrashlytics
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 
-class DebugViewModel : ViewModel() {
-    private val _message = MutableStateFlow<String?>(null)
-    val message = _message.asStateFlow()
+class DebugViewModel(private val userSettingsRepository: UserSettingsRepository) : ViewModel() {
+
+    private val _message = MutableSharedFlow<String>()
+    val message = _message.asSharedFlow()
+
+    val hasCrashlyticsConsent: StateFlow<Boolean> =
+        userSettingsRepository.crashlyticsConsent.stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = false,
+        )
+
+    val hasUsageAnalyticsConsent: StateFlow<Boolean> =
+        userSettingsRepository.usageAnalyticsConsent.stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = false,
+        )
+
+    val hasSeenConsentScreen: StateFlow<Boolean> =
+        userSettingsRepository.hasSeenConsentScreen.stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = false,
+        )
+
+    fun triggerCrash() {
+        FirebaseCrashlytics.getInstance().log("Manually triggered crash from debug menu")
+        throw RuntimeException("Test Crash")
+    }
 
     fun showBuildInfo() {
-        val info =
-            """
-            Version: ${BuildConfig.VERSION_NAME}
-            Code: ${BuildConfig.VERSION_CODE}
-            Build Type: ${BuildConfig.BUILD_TYPE}
-            Debug: ${BuildConfig.DEBUG}
-            """.trimIndent()
-
-        _message.value = info
+        viewModelScope.launch {
+            _message.emit("Not implemented yet")
+        }
     }
 
-    fun triggerCrash(): Unit = throw RuntimeException("Fake crash triggered from DebugViewModel")
-
-    fun clearCache() {
-        // Example debug action
-        _message.value = "Cache cleared"
+    fun toggleCrashlyticsConsent() {
+        viewModelScope.launch {
+            userSettingsRepository.toggleCrashlyticsConsent()
+        }
     }
 
-    fun simulateNetworkError() {
-        _message.value = "Simulated network error"
+    fun toggleUsageAnalyticsConsent() {
+        viewModelScope.launch {
+            userSettingsRepository.toggleUsageAnalyticsConsent()
+        }
+    }
+
+    fun toggleHasSeenConsentScreen() {
+        viewModelScope.launch {
+            userSettingsRepository.toggleHasSeenConsentScreen()
+        }
+    }
+}
+
+class DebugViewModelFactory(private val userSettingsRepository: UserSettingsRepository) : ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(DebugViewModel::class.java)) {
+            @Suppress("UNCHECKED_CAST")
+            return DebugViewModel(userSettingsRepository) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }

@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 
 sealed interface MainUiState {
     object Loading : MainUiState
@@ -14,7 +15,7 @@ sealed interface MainUiState {
     object ShowApp : MainUiState
 }
 
-class MainViewModel(repository: UserSettingsRepository) : ViewModel() {
+class MainViewModel(private val repository: UserSettingsRepository) : ViewModel() {
 
     val uiState: StateFlow<MainUiState> = repository.hasSeenConsentScreen
         .map { hasSeen ->
@@ -29,4 +30,10 @@ class MainViewModel(repository: UserSettingsRepository) : ViewModel() {
             started = SharingStarted.WhileSubscribed(5_000),
             initialValue = MainUiState.Loading
         )
+
+    fun onConsentGiven() {
+        viewModelScope.launch {
+            repository.toggleHasSeenConsentScreen()
+        }
+    }
 }

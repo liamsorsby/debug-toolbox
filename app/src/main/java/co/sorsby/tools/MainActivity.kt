@@ -37,7 +37,7 @@ class MainActivity : ComponentActivity() {
                     // You can show a splash screen or a loading indicator here
                 }
                 is MainUiState.ShowConsent -> {
-                    ConsentScreen()
+                    ConsentScreen(onConsentGiven = { viewModel.onConsentGiven() })
                 }
                 is MainUiState.ShowApp -> {
                     MyApp()

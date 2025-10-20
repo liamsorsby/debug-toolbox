@@ -3,16 +3,20 @@ package co.sorsby.tools.ui.navigation
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Http
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import co.sorsby.tools.data.local.UserSettingsRepository
 import co.sorsby.tools.ui.models.NavigationItem
 import co.sorsby.tools.ui.models.Screen
 import co.sorsby.tools.ui.screens.debug.DebugScreen
 import co.sorsby.tools.ui.screens.network.NetworkDebugScreen
 import co.sorsby.tools.ui.screens.settings.SettingsScreen
+import co.sorsby.tools.ui.screens.settings.SettingsViewModel
+import co.sorsby.tools.ui.screens.settings.SettingsViewModelFactory
 
 val bottomNavItems =
     listOf(
@@ -36,6 +40,15 @@ fun AppNavHost(navController: NavHostController) {
         }
         composable(Screen.Http.route) { NetworkDebugScreen() }
         composable(Screen.Debug.route) { DebugScreen() }
-        composable(Screen.Settings.route) { SettingsScreen(onNavigateUp = { navController.navigateUp() }) }
+        composable(Screen.Settings.route) {
+            val context = LocalContext.current
+            val userSettingsRepository = UserSettingsRepository(context)
+            val settingsViewModel: SettingsViewModel = viewModel(
+                factory = SettingsViewModelFactory(userSettingsRepository)
+            )
+            SettingsScreen(
+                viewModel = settingsViewModel
+            )
+        }
     }
 }
