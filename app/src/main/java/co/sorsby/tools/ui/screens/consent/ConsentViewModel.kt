@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import co.sorsby.tools.data.local.UserSettingsRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -13,6 +14,17 @@ class ConsentViewModel(private val userSettingsRepository: UserSettingsRepositor
 
     private val _uiState = MutableStateFlow(ConsentUiState())
     val uiState = _uiState.asStateFlow()
+
+    init {
+        viewModelScope.launch {
+            _uiState.update {
+                it.copy(
+                    hasCrashlyticsConsent = userSettingsRepository.crashlyticsConsent.first(),
+                    hasUsageAnalyticsConsent = userSettingsRepository.usageAnalyticsConsent.first()
+                )
+            }
+        }
+    }
 
     fun toggleCrashlyticsConsent(consent: Boolean) {
         _uiState.update { it.copy(hasCrashlyticsConsent = consent) }

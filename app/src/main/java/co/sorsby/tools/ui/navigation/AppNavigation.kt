@@ -9,7 +9,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import co.sorsby.tools.data.local.UserSettingsRepository
+import co.sorsby.tools.ToolsApplication
 import co.sorsby.tools.ui.models.NavigationItem
 import co.sorsby.tools.ui.models.Screen
 import co.sorsby.tools.ui.screens.debug.DebugScreen
@@ -41,10 +41,9 @@ fun AppNavHost(navController: NavHostController) {
         composable(Screen.Http.route) { NetworkDebugScreen() }
         composable(Screen.Debug.route) { DebugScreen() }
         composable(Screen.Settings.route) {
-            val context = LocalContext.current
-            val userSettingsRepository = UserSettingsRepository(context)
+            val application = LocalContext.current.applicationContext as ToolsApplication
             val settingsViewModel: SettingsViewModel = viewModel(
-                factory = SettingsViewModelFactory(userSettingsRepository)
+                factory = SettingsViewModelFactory(application.userSettingsRepository)
             )
             SettingsScreen(
                 viewModel = settingsViewModel

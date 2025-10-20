@@ -6,8 +6,8 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 class ToolsApplication : Application() {
 
@@ -19,15 +19,20 @@ class ToolsApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        observeConsentChanges()
+    }
 
-        applicationScope.launch {
-            val crashlyticsConsent = userSettingsRepository.crashlyticsConsent.first()
-            FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(crashlyticsConsent)
-        }
+    private fun observeConsentChanges() {
+        userSettingsRepository.crashlyticsConsent
+            .onEach { isEnabled ->
+                FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(isEnabled)
+            }
+            .launchIn(applicationScope)
 
-        applicationScope.launch {
-            val analyticsConsent = userSettingsRepository.usageAnalyticsConsent.first()
-            FirebaseAnalytics.getInstance(this@ToolsApplication).setAnalyticsCollectionEnabled(analyticsConsent)
-        }
+        userSettingsRepository.usageAnalyticsConsent
+            .onEach { isEnabled ->
+                FirebaseAnalytics.getInstance(this).setAnalyticsCollectionEnabled(isEnabled)
+            }
+            .launchIn(applicationScope)
     }
 }

@@ -2,7 +2,7 @@ package co.sorsby.tools.ui.screens.settings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import co.sorsby.tools.data.UserSettingsRepository
+import co.sorsby.tools.data.local.UserSettingsRepository
 
 class SettingsViewModelFactory(
     private val userSettingsRepository: UserSettingsRepository
