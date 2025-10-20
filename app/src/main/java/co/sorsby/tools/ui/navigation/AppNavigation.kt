@@ -42,11 +42,12 @@ fun AppNavHost(navController: NavHostController) {
         composable(Screen.Debug.route) { DebugScreen() }
         composable(Screen.Settings.route) {
             val application = LocalContext.current.applicationContext as ToolsApplication
-            val settingsViewModel: SettingsViewModel = viewModel(
-                factory = SettingsViewModelFactory(application.userSettingsRepository)
-            )
+            val settingsViewModel: SettingsViewModel =
+                viewModel(
+                    factory = SettingsViewModelFactory(application.userSettingsRepository),
+                )
             SettingsScreen(
-                viewModel = settingsViewModel
+                viewModel = settingsViewModel,
             )
         }
     }

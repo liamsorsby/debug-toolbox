@@ -12,8 +12,9 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
-class DebugViewModel(private val userSettingsRepository: UserSettingsRepository) : ViewModel() {
-
+class DebugViewModel(
+    private val userSettingsRepository: UserSettingsRepository,
+) : ViewModel() {
     private val _message = MutableSharedFlow<String>()
     val message = _message.asSharedFlow()
 
@@ -68,7 +69,9 @@ class DebugViewModel(private val userSettingsRepository: UserSettingsRepository)
     }
 }
 
-class DebugViewModelFactory(private val userSettingsRepository: UserSettingsRepository) : ViewModelProvider.Factory {
+class DebugViewModelFactory(
+    private val userSettingsRepository: UserSettingsRepository,
+) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(DebugViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")

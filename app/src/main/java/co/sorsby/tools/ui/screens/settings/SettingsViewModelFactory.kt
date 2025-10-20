@@ -5,9 +5,8 @@ import androidx.lifecycle.ViewModelProvider
 import co.sorsby.tools.data.local.UserSettingsRepository
 
 class SettingsViewModelFactory(
-    private val userSettingsRepository: UserSettingsRepository
+    private val userSettingsRepository: UserSettingsRepository,
 ) : ViewModelProvider.Factory {
-
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(SettingsViewModel::class.java)) {

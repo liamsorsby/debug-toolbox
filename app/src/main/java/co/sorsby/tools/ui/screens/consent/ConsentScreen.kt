@@ -26,21 +26,20 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import co.sorsby.tools.ToolsApplication
 
 @Composable
-fun ConsentScreen(
-    onConsentGiven: () -> Unit,
-) {
+fun ConsentScreen(onConsentGiven: () -> Unit) {
     val context = LocalContext.current.applicationContext as ToolsApplication
     val viewModel: ConsentViewModel = viewModel(factory = ConsentViewModelFactory(context.userSettingsRepository))
     val uiState by viewModel.uiState.collectAsState()
 
     Scaffold {
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(it)
-                .padding(32.dp),
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(it)
+                    .padding(32.dp),
             verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(
                 text = "Privacy Settings",
@@ -48,9 +47,11 @@ fun ConsentScreen(
             )
             Spacer(modifier = Modifier.height(16.dp))
             Text(
-                text = "To improve the app, you can choose to share anonymous data with us. Your privacy is important, and you can change these settings at any time.",
+                text =
+                    "To improve the app, you can choose to share anonymous data with us." +
+                        "Your privacy is important, and you can change these settings at any time.",
                 style = MaterialTheme.typography.bodyMedium,
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
             )
             Spacer(modifier = Modifier.height(32.dp))
 
@@ -58,14 +59,14 @@ fun ConsentScreen(
                 title = "Crash Reporting",
                 description = "Help us fix bugs by automatically sending anonymous crash reports.",
                 checked = uiState.hasCrashlyticsConsent,
-                onCheckedChange = viewModel::toggleCrashlyticsConsent
+                onCheckedChange = viewModel::toggleCrashlyticsConsent,
             )
             HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
             ConsentRow(
                 title = "Usage Analytics",
                 description = "Help us improve features by sending anonymous usage data.",
                 checked = uiState.hasUsageAnalyticsConsent,
-                onCheckedChange = viewModel::toggleUsageAnalyticsConsent
+                onCheckedChange = viewModel::toggleUsageAnalyticsConsent,
             )
 
             Spacer(modifier = Modifier.weight(1f))
@@ -75,7 +76,7 @@ fun ConsentScreen(
                     viewModel.onDone()
                     onConsentGiven()
                 },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
             ) {
                 Text("Continue")
             }
@@ -93,7 +94,7 @@ private fun ConsentRow(
     Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
+        horizontalArrangement = Arrangement.SpaceBetween,
     ) {
         Column(modifier = Modifier.weight(1f).padding(end = 16.dp)) {
             Text(text = title, style = MaterialTheme.typography.titleMedium)

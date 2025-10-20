@@ -25,36 +25,44 @@ fun SettingsScreen(viewModel: SettingsViewModel = viewModel()) {
     Scaffold {
         Column(modifier = Modifier.padding(it)) {
             Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 8.dp),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
+                horizontalArrangement = Arrangement.SpaceBetween,
             ) {
                 Column(modifier = Modifier.weight(1f)) {
                     Text("Allow Crash Reporting")
-                    Text("Help us fix bugs by sending anonymous crash reports.", style = androidx.compose.material3.MaterialTheme.typography.bodySmall)
+                    Text(
+                        "Help us fix bugs by sending anonymous crash reports.",
+                        style = androidx.compose.material3.MaterialTheme.typography.bodySmall,
+                    )
                 }
                 Switch(
                     checked = crashlyticsConsent,
-                    onCheckedChange = { consent -> viewModel.setCrashlyticsConsent(consent) }
+                    onCheckedChange = { consent -> viewModel.setCrashlyticsConsent(consent) },
                 )
             }
             HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
             Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 8.dp),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
+                horizontalArrangement = Arrangement.SpaceBetween,
             ) {
                 Column(modifier = Modifier.weight(1f)) {
                     Text("Allow Usage Analytics")
-                    Text("Help us improve the app by sending anonymous usage data.", style = androidx.compose.material3.MaterialTheme.typography.bodySmall)
+                    Text(
+                        "Help us improve the app by sending anonymous usage data.",
+                        style = androidx.compose.material3.MaterialTheme.typography.bodySmall,
+                    )
                 }
                 Switch(
                     checked = usageAnalyticsConsent,
-                    onCheckedChange = { consent -> viewModel.setUsageAnalyticsConsent(consent) }
+                    onCheckedChange = { consent -> viewModel.setUsageAnalyticsConsent(consent) },
                 )
             }
         }

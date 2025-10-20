@@ -12,7 +12,9 @@ import androidx.lifecycle.ViewModelProvider
 import co.sorsby.tools.ui.MyApp
 import co.sorsby.tools.ui.screens.consent.ConsentScreen
 
-class MainViewModelFactory(private val application: ToolsApplication) : ViewModelProvider.Factory {
+class MainViewModelFactory(
+    private val application: ToolsApplication,
+) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(MainViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")

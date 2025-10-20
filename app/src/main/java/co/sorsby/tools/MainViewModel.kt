@@ -11,25 +11,28 @@ import kotlinx.coroutines.launch
 
 sealed interface MainUiState {
     object Loading : MainUiState
+
     object ShowConsent : MainUiState
+
     object ShowApp : MainUiState
 }
 
-class MainViewModel(private val repository: UserSettingsRepository) : ViewModel() {
-
-    val uiState: StateFlow<MainUiState> = repository.hasSeenConsentScreen
-        .map { hasSeen ->
-            if (hasSeen) {
-                MainUiState.ShowApp
-            } else {
-                MainUiState.ShowConsent
-            }
-        }
-        .stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5_000),
-            initialValue = MainUiState.Loading
-        )
+class MainViewModel(
+    private val repository: UserSettingsRepository,
+) : ViewModel() {
+    val uiState: StateFlow<MainUiState> =
+        repository.hasSeenConsentScreen
+            .map { hasSeen ->
+                if (hasSeen) {
+                    MainUiState.ShowApp
+                } else {
+                    MainUiState.ShowConsent
+                }
+            }.stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(5_000),
+                initialValue = MainUiState.Loading,
+            )
 
     fun onConsentGiven() {
         viewModelScope.launch {

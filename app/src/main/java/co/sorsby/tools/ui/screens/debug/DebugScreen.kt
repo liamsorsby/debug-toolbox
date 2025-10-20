@@ -41,9 +41,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DebugScreen(
-    snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
-) {
+fun DebugScreen(snackbarHostState: SnackbarHostState = remember { SnackbarHostState() }) {
     val context = LocalContext.current
     val userSettingsRepository = remember { UserSettingsRepository(context) }
     val viewModel: DebugViewModel = viewModel(factory = DebugViewModelFactory(userSettingsRepository))
@@ -73,10 +71,11 @@ fun DebugScreen(
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
     ) { innerPadding ->
         LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding)
-                .padding(horizontal = 16.dp, vertical = 12.dp),
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding)
+                    .padding(horizontal = 16.dp, vertical = 12.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             item {
@@ -104,61 +103,66 @@ fun DebugScreen(
                         ),
                 )
             }
+
             item {
                 Text(
                     text = "User Preferences",
                     style = MaterialTheme.typography.titleSmall,
                     color = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.padding(top = 8.dp, bottom = 4.dp)
+                    modifier = Modifier.padding(top = 8.dp, bottom = 4.dp),
                 )
                 Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(MaterialTheme.colorScheme.surfaceVariant, shape = RoundedCornerShape(12.dp))
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .background(MaterialTheme.colorScheme.surfaceVariant, shape = RoundedCornerShape(12.dp)),
                 ) {
                     Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 16.dp, vertical = 8.dp),
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp, vertical = 8.dp),
                         verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceBetween
+                        horizontalArrangement = Arrangement.SpaceBetween,
                     ) {
                         Text("Crashlytics Consent")
                         Switch(
                             checked = hasCrashlyticsConsent,
-                            onCheckedChange = { viewModel.toggleCrashlyticsConsent() }
+                            onCheckedChange = { viewModel.toggleCrashlyticsConsent() },
                         )
                     }
                     HorizontalDivider(
                         modifier = Modifier.padding(horizontal = 16.dp),
                     )
                     Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 16.dp, vertical = 8.dp),
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp, vertical = 8.dp),
                         verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceBetween
+                        horizontalArrangement = Arrangement.SpaceBetween,
                     ) {
                         Text("Usage Analytics Consent")
                         Switch(
                             checked = hasUsageAnalyticsConsent,
-                            onCheckedChange = { viewModel.toggleUsageAnalyticsConsent() }
+                            onCheckedChange = { viewModel.toggleUsageAnalyticsConsent() },
                         )
                     }
                     HorizontalDivider(
                         modifier = Modifier.padding(horizontal = 16.dp),
                     )
                     Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 16.dp, vertical = 8.dp),
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp, vertical = 8.dp),
                         verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceBetween
+                        horizontalArrangement = Arrangement.SpaceBetween,
                     ) {
                         Text("Has Seen Consent Screen")
                         Switch(
                             checked = hasSeenConsentScreen,
-                            onCheckedChange = { viewModel.toggleHasSeenConsentScreen() }
+                            onCheckedChange = { viewModel.toggleHasSeenConsentScreen() },
                         )
                     }
                 }

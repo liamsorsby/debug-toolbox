@@ -12,8 +12,9 @@ import kotlinx.coroutines.flow.map
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
-class UserSettingsRepository(private val context: Context) {
-
+class UserSettingsRepository(
+    private val context: Context,
+) {
     private companion object {
         val CRASHLYTICS_CONSENT = booleanPreferencesKey("crashlytics_consent")
         val USAGE_ANALYTICS_CONSENT = booleanPreferencesKey("usage_analytics_consent")

@@ -10,8 +10,9 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class ConsentViewModel(private val userSettingsRepository: UserSettingsRepository) : ViewModel() {
-
+class ConsentViewModel(
+    private val userSettingsRepository: UserSettingsRepository,
+) : ViewModel() {
     private val _uiState = MutableStateFlow(ConsentUiState())
     val uiState = _uiState.asStateFlow()
 
@@ -20,7 +21,7 @@ class ConsentViewModel(private val userSettingsRepository: UserSettingsRepositor
             _uiState.update {
                 it.copy(
                     hasCrashlyticsConsent = userSettingsRepository.crashlyticsConsent.first(),
-                    hasUsageAnalyticsConsent = userSettingsRepository.usageAnalyticsConsent.first()
+                    hasUsageAnalyticsConsent = userSettingsRepository.usageAnalyticsConsent.first(),
                 )
             }
         }
@@ -48,7 +49,9 @@ data class ConsentUiState(
     val hasUsageAnalyticsConsent: Boolean = false,
 )
 
-class ConsentViewModelFactory(private val userSettingsRepository: UserSettingsRepository) : ViewModelProvider.Factory {
+class ConsentViewModelFactory(
+    private val userSettingsRepository: UserSettingsRepository,
+) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(ConsentViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")

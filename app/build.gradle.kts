@@ -72,6 +72,7 @@ dependencies {
     // implmentation specific
     implementation(libs.okhttp)
     implementation(libs.ui)
+    implementation(libs.material.kolor)
 
     testImplementation(libs.junit)
     testImplementation(libs.kotlinx.coroutines.test)
