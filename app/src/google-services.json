@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "329784033317",
+    "project_id": "sorsby-dc102",
+    "storage_bucket": "sorsby-dc102.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:329784033317:android:07c163245f1fd9065a7fcc",
+        "android_client_info": {
+          "package_name": "co.sorsby.tools"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "329784033317-4vjss050s45hhs1chatcvn0vqepbqi8i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB6BzghD4BAGGxFFPO7lyuLF08DX2bcSEk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "329784033317-4vjss050s45hhs1chatcvn0vqepbqi8i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

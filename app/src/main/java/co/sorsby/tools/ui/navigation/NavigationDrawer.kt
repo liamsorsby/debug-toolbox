@@ -57,6 +57,11 @@ fun MyDrawerContent(onNavigate: (String) -> Unit) {
                 selected = false,
                 onClick = { onNavigate(Screen.Http.route) },
             )
+            NavigationDrawerItem(
+                label = { Text("Settings") },
+                selected = false,
+                onClick = { onNavigate(Screen.Settings.route) },
+            )
         }
     }
 }

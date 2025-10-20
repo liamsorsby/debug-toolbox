@@ -3,6 +3,7 @@ package co.sorsby.tools.ui.navigation
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Http
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -11,9 +12,10 @@ import co.sorsby.tools.ui.models.NavigationItem
 import co.sorsby.tools.ui.models.Screen
 import co.sorsby.tools.ui.screens.debug.DebugScreen
 import co.sorsby.tools.ui.screens.network.NetworkDebugScreen
+import co.sorsby.tools.ui.screens.settings.SettingsScreen
 
 val bottomNavItems =
-    mutableListOf(
+    listOf(
         NavigationItem(
             label = "Home",
             icon = Icons.Default.Home,
@@ -24,7 +26,7 @@ val bottomNavItems =
             icon = Icons.Default.Http,
             route = Screen.Http.route,
         ),
-    ).toList()
+    )
 
 @Composable
 fun AppNavHost(navController: NavHostController) {
@@ -34,5 +36,6 @@ fun AppNavHost(navController: NavHostController) {
         }
         composable(Screen.Http.route) { NetworkDebugScreen() }
         composable(Screen.Debug.route) { DebugScreen() }
+        composable(Screen.Settings.route) { SettingsScreen(onNavigateUp = { navController.navigateUp() }) }
     }
 }
