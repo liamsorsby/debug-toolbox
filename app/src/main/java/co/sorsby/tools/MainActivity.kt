@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import co.sorsby.tools.ui.MyApp
 import co.sorsby.tools.ui.screens.consent.ConsentScreen
+import co.sorsby.tools.ui.theme.ToolsTheme
 
 class MainViewModelFactory(
     private val application: ToolsApplication,
@@ -33,16 +34,18 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            val uiState by viewModel.uiState.collectAsState()
-            when (uiState) {
-                is MainUiState.Loading -> {
-                    // You can show a splash screen or a loading indicator here
-                }
-                is MainUiState.ShowConsent -> {
-                    ConsentScreen(onConsentGiven = { viewModel.onConsentGiven() })
-                }
-                is MainUiState.ShowApp -> {
-                    MyApp()
+            ToolsTheme {
+                val uiState by viewModel.uiState.collectAsState()
+                when (uiState) {
+                    is MainUiState.Loading -> {
+                        // You can show a splash screen or a loading indicator here
+                    }
+                    is MainUiState.ShowConsent -> {
+                        ConsentScreen(onConsentGiven = { viewModel.onConsentGiven() })
+                    }
+                    is MainUiState.ShowApp -> {
+                        MyApp()
+                    }
                 }
             }
         }

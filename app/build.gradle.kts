@@ -73,6 +73,7 @@ dependencies {
     implementation(libs.okhttp)
     implementation(libs.ui)
     implementation(libs.material.kolor)
+    implementation("dnsjava:dnsjava:3.5.3")
 
     testImplementation(libs.junit)
     testImplementation(libs.kotlinx.coroutines.test)

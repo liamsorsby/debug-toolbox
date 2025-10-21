@@ -9,9 +9,13 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Dns
+import androidx.compose.material.icons.filled.Http
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
@@ -52,11 +56,32 @@ fun MyDrawerContent(onNavigate: (String) -> Unit) {
                 selected = false,
                 onClick = { onNavigate(Screen.Home.route) },
             )
+
+            Text(
+                "Network Tools",
+                modifier = Modifier.padding(16.dp),
+                style = MaterialTheme.typography.titleMedium,
+            )
+            HorizontalDivider()
             NavigationDrawerItem(
-                label = { Text("Network Debugging") },
+                label = { Text("HTTP Debugging") },
                 selected = false,
                 onClick = { onNavigate(Screen.Http.route) },
+                icon = { Icon(Icons.Default.Http, contentDescription = "Http(s) Debugging") },
+                )
+            NavigationDrawerItem(
+                label = { Text("DNS Lookup") },
+                selected = false,
+                onClick = { onNavigate(Screen.Dns.route) },
+                icon = { Icon(Icons.Default.Dns, contentDescription = "DNS Lookup") },
             )
+
+            Text(
+                "Settings",
+                modifier = Modifier.padding(16.dp),
+                style = MaterialTheme.typography.titleMedium,
+            )
+            HorizontalDivider()
             NavigationDrawerItem(
                 label = { Text("Settings") },
                 selected = false,
