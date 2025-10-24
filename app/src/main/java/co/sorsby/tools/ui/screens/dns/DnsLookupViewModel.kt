@@ -14,13 +14,12 @@ data class DnsLookupUiState(
     val type: Int = Type.A,
     val results: String = "",
     val isLoading: Boolean = false,
-    val error: String? = null
+    val error: String? = null,
 )
 
 class DnsLookupViewModel(
-    private val dnsResolver: DnsResolver
+    private val dnsResolver: DnsResolver,
 ) : ViewModel() {
-
     private val _uiState = MutableStateFlow(DnsLookupUiState())
     val uiState = _uiState.asStateFlow()
 
@@ -45,7 +44,7 @@ class DnsLookupViewModel(
                 },
                 onFailure = { error ->
                     _uiState.update { it.copy(isLoading = false, error = error.message ?: "An unknown error occurred.") }
-                }
+                },
             )
         }
     }

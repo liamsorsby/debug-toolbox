@@ -40,7 +40,7 @@ fun MyDrawerContent(onNavigate: (String) -> Unit) {
         ) {
             Spacer(Modifier.height(12.dp))
             Text(
-                "Tools",
+                "Debug Toolbox",
                 modifier = Modifier.padding(16.dp),
                 style = MaterialTheme.typography.titleLarge,
             )
@@ -68,7 +68,7 @@ fun MyDrawerContent(onNavigate: (String) -> Unit) {
                 selected = false,
                 onClick = { onNavigate(Screen.Http.route) },
                 icon = { Icon(Icons.Default.Http, contentDescription = "Http(s) Debugging") },
-                )
+            )
             NavigationDrawerItem(
                 label = { Text("DNS Lookup") },
                 selected = false,

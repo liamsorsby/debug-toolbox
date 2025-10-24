@@ -1,0 +1,112 @@
+default_platform(:android)
+
+platform :android do
+  before_all do
+  end
+
+  desc "Build and upload a preview to Firebase App Distribution"
+  lane :preview do
+    gradle(
+      task: "clean",
+      project_dir: './'
+    )
+    gradle(
+      task: "assembleDebug",
+      project_dir: './',
+      properties: {
+        "android.injected.signing.store.password" => ENV['SIGNING_KEY_STORE_PASSWORD'],
+        "android.injected.signing.key.alias" => ENV['SIGNING_KEY_ALIAS'],
+        "android.injected.signing.key.password" => ENV['SIGNING_KEY_PASSWORD']
+      }
+    )
+    firebase_app_distribution(
+      app: ENV['FIREBASE_APP_ID'],
+      firebase_cli_token: ENV['FIREBASE_TOKEN'],
+      release_notes: "Preview build from master",
+      groups: "testers"
+    )
+  end
+
+  desc "Build and upload a release to Google Play. Optionally bumps the version before building."
+  lane :release do |options|
+    bump_type = options[:bump] # 'patch', 'minor', 'major'
+
+    if bump_type
+      ensure_git_status_clean
+
+      # Read current version
+      current_version = get_gradle_property(key: "VERSION_NAME", file: "../gradle.properties")
+
+      # Calculate new version name
+      version_parts = current_version.split('.').map(&:to_i)
+      major, minor, patch = version_parts[0], version_parts[1], version_parts[2]
+
+      case bump_type
+      when "major"
+        major += 1; minor = 0; patch = 0
+      when "minor"
+        minor += 1; patch = 0
+      else # "patch"
+        patch += 1
+      end
+
+      new_version_name = "#{major}.#{minor}.#{patch}"
+      new_version_code = `git rev-list --count HEAD`.to_i + 1
+
+      # Update gradle.properties
+      set_gradle_property(file: "../gradle.properties", key: "VERSION_NAME", value: new_version_name)
+      set_gradle_property(file: "../gradle.properties", key: "VERSION_CODE", value: new_version_code)
+
+      # Commit, tag, and push
+      git_commit(path: ["../gradle.properties"], message: "chore(release): version #{new_version_name}")
+      add_git_tag(tag: "v#{new_version_name}")
+      push_to_git_remote
+
+      UI.message("🚀 Successfully bumped version to #{new_version_name} and tagged release. 🚀")
+    else
+      # If not bumping, assume tag exists and version is passed from CI
+      version_name = ENV['GIT_TAG_NAME']
+      UI.user_error!("Not a bump and GIT_TAG_NAME is not set. Are you running this on a tag push?") if version_name.nil?
+
+      version_name.gsub!('v', '')
+      version_code = `git rev-list --count HEAD`.to_i
+
+      set_gradle_property(file: "../gradle.properties", key: "VERSION_NAME", value: version_name)
+      set_gradle_property(file: "../gradle.properties", key: "VERSION_CODE", value: version_code)
+    end
+
+    # Build and upload
+    gradle(
+      task: "clean",
+      project_dir: './'
+    )
+    gradle(
+      task: "bundleRelease",
+      project_dir: './',
+      properties: {
+        "android.injected.signing.store.password" => ENV['SIGNING_KEY_STORE_PASSWORD'],
+        "android.injected.signing.key.alias" => ENV['SIGNING_KEY_ALIAS'],
+        "android.injected.signing.key.password" => ENV['SIGNING_KEY_PASSWORD']
+      }
+    )
+    upload_to_play_store(
+      track: 'internal',
+      json_key: ENV['GOOGLE_PLAY_JSON_KEY']
+    )
+  end
+
+  after_all do |lane|
+    # Send a slack notification if a URL is set
+    # slack(
+    #   message: "Successfully deployed #{lane_name}"
+    # )
+  end
+
+  error do |lane, exception|
+    # Send a slack notification if a URL is set
+    # slack(
+    #   message: "Error deploying #{lane_name}: #{exception.message}",
+    #   success: false
+    # )
+  end
+end

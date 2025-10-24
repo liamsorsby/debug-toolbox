@@ -6,4 +6,5 @@ plugins {
     alias(libs.plugins.ktlint) apply false
     alias(libs.plugins.google.services) apply false
     alias(libs.plugins.firebase.crashlytics) apply false
+    id("org.sonarqube") version "7.0.1.6134"
 }

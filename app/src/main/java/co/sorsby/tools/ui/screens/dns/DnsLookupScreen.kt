@@ -9,8 +9,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenuItem
@@ -43,24 +41,26 @@ fun DnsLookupScreen() {
     val viewModel: DnsLookupViewModel = viewModel(factory = DnsLookupViewModelFactory(context.userSettingsRepository))
     val uiState by viewModel.uiState.collectAsState()
 
-    val recordTypes = remember {
-        listOf("A", "AAAA", "CNAME", "MX", "NS", "PTR", "SOA", "SRV", "TXT")
-    }
+    val recordTypes =
+        remember {
+            listOf("A", "AAAA", "CNAME", "MX", "NS", "PTR", "SOA", "SRV", "TXT")
+        }
     var expanded by remember { mutableStateOf(false) }
 
-    Scaffold {
- padding ->
-        Column(modifier = Modifier
-            .padding(padding)
-            .padding(16.dp)
-            .fillMaxSize()
+    Scaffold { padding ->
+        Column(
+            modifier =
+                Modifier
+                    .padding(padding)
+                    .padding(16.dp)
+                    .fillMaxSize(),
         ) {
             OutlinedTextField(
                 value = uiState.hostname,
                 onValueChange = viewModel::onHostnameChange,
                 label = { Text("Hostname") },
                 modifier = Modifier.fillMaxWidth(),
-                singleLine = true
+                singleLine = true,
             )
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -68,12 +68,12 @@ fun DnsLookupScreen() {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 ExposedDropdownMenuBox(
                     expanded = expanded,
                     onExpandedChange = { expanded = !expanded },
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.weight(1f),
                 ) {
                     OutlinedTextField(
                         value = Type.string(uiState.type),
@@ -81,11 +81,11 @@ fun DnsLookupScreen() {
                         readOnly = true,
                         label = { Text("Record Type") },
                         trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
-                        modifier = Modifier.menuAnchor().fillMaxWidth()
+                        modifier = Modifier.menuAnchor().fillMaxWidth(),
                     )
                     ExposedDropdownMenu(
                         expanded = expanded,
-                        onDismissRequest = { expanded = false }
+                        onDismissRequest = { expanded = false },
                     ) {
                         recordTypes.forEach { type ->
                             DropdownMenuItem(
@@ -93,7 +93,7 @@ fun DnsLookupScreen() {
                                 onClick = {
                                     viewModel.onTypeChange(type)
                                     expanded = false
-                                }
+                                },
                             )
                         }
                     }
@@ -101,7 +101,7 @@ fun DnsLookupScreen() {
 
                 Button(
                     onClick = viewModel::performLookup,
-                    enabled = !uiState.isLoading && uiState.hostname.isNotBlank()
+                    enabled = !uiState.isLoading && uiState.hostname.isNotBlank(),
                 ) {
                     Text("Lookup")
                 }
@@ -113,7 +113,7 @@ fun DnsLookupScreen() {
                 uiState.isLoading -> {
                     Box(
                         modifier = Modifier.weight(1f).fillMaxWidth(),
-                        contentAlignment = Alignment.Center
+                        contentAlignment = Alignment.Center,
                     ) {
                         CircularProgressIndicator()
                     }
@@ -122,18 +122,18 @@ fun DnsLookupScreen() {
                     Text(
                         text = "Error: ${uiState.error}",
                         color = MaterialTheme.colorScheme.error,
-                        modifier = Modifier.padding(8.dp)
+                        modifier = Modifier.padding(8.dp),
                     )
                 }
                 uiState.results.isNotEmpty() -> {
                     Text(
                         text = uiState.results,
-                        modifier = Modifier.padding(vertical = 4.dp)
+                        modifier = Modifier.padding(vertical = 4.dp),
                     )
                     HorizontalDivider()
                 }
                 else -> {
-                     // Initial state or no results
+                    // Initial state or no results
                 }
             }
         }

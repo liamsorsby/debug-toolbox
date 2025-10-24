@@ -12,9 +12,12 @@ import org.xbill.DNS.SimpleResolver
 import org.xbill.DNS.TextParseException
 
 class DnsResolver(
-    private val userSettingsRepository: UserSettingsRepository
+    private val userSettingsRepository: UserSettingsRepository,
 ) {
-    suspend fun lookup(hostname: String, type: Int): Result<Array<Record>?> {
+    suspend fun lookup(
+        hostname: String,
+        type: Int,
+    ): Result<Array<Record>?> {
         return withContext(Dispatchers.IO) {
             try {
                 val server1 = userSettingsRepository.dnsServer.first()
@@ -22,14 +25,14 @@ class DnsResolver(
                 val ndots = userSettingsRepository.dnsNdots.first()
                 val timeout = userSettingsRepository.dnsTimeout.first()
 
-                val servers = listOf(server1, server2)
-                    .filter { it.isNotBlank() }
-                    .map {
-                        SimpleResolver(it).apply {
-                            setTimeout(timeout)
-                        }
-                    }
-                    .toTypedArray()
+                val servers =
+                    listOf(server1, server2)
+                        .filter { it.isNotBlank() }
+                        .map {
+                            SimpleResolver(it).apply {
+                                setTimeout(timeout)
+                            }
+                        }.toTypedArray()
 
                 if (servers.isEmpty()) {
                     return@withContext Result.failure(IllegalStateException("No DNS servers configured."))

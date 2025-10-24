@@ -6,9 +6,8 @@ import co.sorsby.tools.data.local.UserSettingsRepository
 import co.sorsby.tools.data.network.DnsResolver
 
 class DnsLookupViewModelFactory(
-    private val userSettingsRepository: UserSettingsRepository
+    private val userSettingsRepository: UserSettingsRepository,
 ) : ViewModelProvider.Factory {
-
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(DnsLookupViewModel::class.java)) {
