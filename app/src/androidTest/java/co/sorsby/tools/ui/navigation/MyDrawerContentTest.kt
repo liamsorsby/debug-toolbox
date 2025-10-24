@@ -16,8 +16,11 @@ class MyDrawerContentTest {
             MyDrawerContent(onNavigate = {})
         }
 
+        composeTestRule.onNodeWithText("Debug Toolbox").assertIsDisplayed()
         composeTestRule.onNodeWithText("Main Tools").assertIsDisplayed()
         composeTestRule.onNodeWithText("Home").assertIsDisplayed()
-        composeTestRule.onNodeWithText("Network Debugging").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Network Tools").assertIsDisplayed()
+        composeTestRule.onNodeWithText("HTTP Debugging").assertIsDisplayed()
+        composeTestRule.onNodeWithText("DNS Lookup").assertIsDisplayed()
     }
 }
