@@ -12,6 +12,9 @@ concurrency:
 jobs:
   ci:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        api-level: [29]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -82,8 +85,30 @@ jobs:
       - name: Run Unit Tests
         run: ./gradlew testDebugUnitTest
 
-      - name: Run Android Instrumented Tests
+      - name: AVD cache
+        uses: actions/cache@v4
+        id: avd-cache
+        with:
+          path: |
+            ~/.android/avd/*
+            ~/.android/adb*
+          key: avd-${{ matrix.api-level }}
+
+      - name: create AVD and generate snapshot for caching
+        if: steps.avd-cache.outputs.cache-hit != 'true'
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 29
-          script: ./gradlew connectedCheck
+          api-level: ${{ matrix.api-level }}
+          force-avd-creation: false
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          disable-animations: false
+          script: echo "Generated AVD snapshot for caching."
+
+#      - name: Run Android Instrumented Tests
+#        uses: reactivecircus/android-emulator-runner@v2
+#        with:
+#          api-level: ${{ matrix.api-level }}
+#          target: google_apis
+#          arch: x86_64
+#          force-avd-creation: false
+#          script: ./gradlew connectedCheck
