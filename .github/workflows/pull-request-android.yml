@@ -1,4 +1,4 @@
-name: Pull Request CI - Basic tests
+name: Pull Request CI - Android
 
 on:
   workflow_dispatch:
@@ -10,8 +10,11 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  pull-request-ci:
+  pull-request-android:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        api-level: [29]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -77,8 +80,30 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v5
 
-      - name: Run Lint
-        run: ./gradlew lintDebug
+      - name: AVD cache
+        uses: actions/cache@v4
+        id: avd-cache
+        with:
+          path: |
+            ~/.android/avd/*
+            ~/.android/adb*
+          key: avd-${{ matrix.api-level }}
 
-      - name: Run Unit Tests
-        run: ./gradlew testDebugUnitTest
+      - name: create AVD and generate snapshot for caching
+        if: steps.avd-cache.outputs.cache-hit != 'true'
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: ${{ matrix.api-level }}
+          force-avd-creation: false
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          disable-animations: false
+          script: echo "Generated AVD snapshot for caching."
+
+      - name: Run Android Instrumented Tests
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: ${{ matrix.api-level }}
+          force-avd-creation: false
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          disable-animations: false
+          script: ./gradlew connectedCheck
