@@ -36,7 +36,8 @@ jobs:
 
       - name: Setup Firebase config
         run: |
-          printf "%s" "${{ secrets.GOOGLE_SERVICES_JSON }}" > app/google-services.json
+          mkdir -p app
+          echo "${{ secrets.GOOGLE_SERVICES_JSON }}" | jq . > app/google-services.json
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
