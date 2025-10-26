@@ -50,10 +50,6 @@ jobs:
           ruby-version: '3.2'
           bundler-cache: true
 
-      - name: Install dependencies
-        run: bundle install
-        working-directory: fastlane
-
       - name: Decode Keystore
         env:
           ENCODED_KEYSTORE: ${{ secrets.ENCODED_KEYSTORE }}
