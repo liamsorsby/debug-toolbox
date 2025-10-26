@@ -1,5 +1,8 @@
 name: Pull Request CI - Android
 
+permissions:
+  contents: read
+
 on:
   workflow_dispatch:
   pull_request:
