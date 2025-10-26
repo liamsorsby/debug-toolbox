@@ -51,6 +51,9 @@ jobs:
       - name: Install dependencies
         run: bundle install
 
+      - name: Install Fastlane plugins
+        run: bundle exec fastlane install_plugins
+
       - name: Decode Keystore
         env:
           ENCODED_KEYSTORE: ${{ secrets.ENCODED_KEYSTORE }}
