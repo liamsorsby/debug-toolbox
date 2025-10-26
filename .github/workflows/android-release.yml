@@ -61,7 +61,7 @@ jobs:
         run: echo $DATA | base64 -di > app/src/google-services.json
 
       - name: Preview build
-        if: github.ref == 'refs/heads/master'
+        if: github.ref == 'refs/heads/main'
         run: bundle exec fastlane preview
         env:
           FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
