@@ -1,6 +1,9 @@
 
 name: Android Release
 
+permissions:
+  contents: read
+
 on:
   push:
     branches:
