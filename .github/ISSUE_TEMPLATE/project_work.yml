@@ -1,0 +1,114 @@
+name: 🚀 Project / Milestone Task
+description: Track progress for project or milestone work (e.g., MVP feature, initial release)
+title: "[MVP] <feature or milestone name>"
+labels: ["mvp", "milestone", "feature"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 🚀 Goal
+        Describe the high-level goal of this milestone or project work — what are we building, and why?
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: What’s being built in this milestone? Outline the key deliverables.
+      placeholder: "e.g., Implement core HTTP inspector for Debug Toolbox v1"
+    validations:
+      required: true
+
+  - type: textarea
+    id: objectives
+    attributes:
+      label: Objectives
+      description: Key measurable objectives or outcomes for this milestone.
+      placeholder: |
+        - Allow users to view intercepted HTTP requests
+        - Capture request headers and response body
+        - Store last 50 requests in memory
+    validations:
+      required: true
+
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope
+      description: What’s included and what’s out of scope?
+      placeholder: |
+        **In scope**
+        - Basic UI for viewing HTTP logs
+        - Manual clear button
+
+        **Out of scope**
+        - Filtering
+        - Exporting logs
+
+  - type: textarea
+    id: design_context
+    attributes:
+      label: Design / Technical Context
+      description: Reference any relevant designs, architecture decisions, or technical notes.
+      placeholder: "Link to Figma / design files / architectural diagram / RFC if available"
+
+  - type: textarea
+    id: tasks
+    attributes:
+      label: Implementation Tasks
+      description: Breakdown of smaller tasks or subtasks to complete this milestone.
+      placeholder: |
+        - [ ] Create base HTTP capture service
+        - [ ] Build request log UI
+        - [ ] Wire up persistence
+        - [ ] QA testing and bug fixes
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance_criteria
+    attributes:
+      label: Acceptance Criteria
+      description: Define what success looks like — what conditions must be met before closing this issue?
+      placeholder: |
+        - All HTTP requests are captured in debug mode
+        - No crashes under normal load
+        - QA sign-off complete
+    validations:
+      required: true
+
+  - type: input
+    id: milestone
+    attributes:
+      label: Milestone / Version Target
+      description: Link to GitHub milestone or enter version number
+      placeholder: "v1.0.0"
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      options:
+        - 🔥 High (critical for first release)
+        - ⚙️ Medium (important but can follow)
+        - 🧩 Low (nice-to-have)
+      default: 1
+
+  - type: textarea
+    id: risks
+    attributes:
+      label: Risks / Blockers
+      description: Are there any known risks, dependencies, or blockers for this milestone?
+
+  - type: textarea
+    id: testing
+    attributes:
+      label: QA / Testing Notes
+      description: How should this milestone be tested or validated?
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        🧭 **Tip:** Link this issue to your GitHub Project board for tracking, and assign it to the appropriate milestone.
