@@ -13,6 +13,9 @@ android:
 fastlane:
   - "fastlane/**"
 
+kotlin:
+  - "**/*.kt"
+
 gradle:
   - "*.gradle"
   - "*.gradle.kts"
