@@ -1,0 +1,19 @@
+# Automatically label issues and PRs based on file paths
+
+documentation:
+  - "docs/**"
+  - "*.md"
+
+ci:
+  - ".github/workflows/**"
+
+android:
+  - "app/src/**"
+
+fastlane:
+  - "fastlane/**"
+
+gradle:
+  - "*.gradle"
+  - "*.gradle.kts"
+  - "gradle/**"
