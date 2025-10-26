@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Community Support
+    url: https://github.com/liamsorsby/debug-toolbox/discussions
+    about: Please ask and answer questions here.
+  - name: "Security Reporting"
+    url: "/SECURITY.md"
+    about: "Report security vulnerabilities"
