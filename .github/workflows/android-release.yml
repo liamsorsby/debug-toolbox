@@ -45,14 +45,16 @@ jobs:
       - name: Set up Ruby and Bundler
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '2.7'
+          ruby-version: '3.2'
           bundler-cache: true
 
       - name: Install dependencies
         run: bundle install
+        working-directory: fastlane
 
       - name: Install Fastlane plugins
         run: bundle exec fastlane install_plugins
+        working-directory: fastlane
 
       - name: Decode Keystore
         env:
@@ -69,6 +71,7 @@ jobs:
       - name: Preview build
         if: github.ref == 'refs/heads/main'
         run: bundle exec fastlane preview
+        working-directory: fastlane
         env:
           FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
@@ -79,6 +82,7 @@ jobs:
       - name: Release build
         if: startsWith(github.ref, 'refs/tags/v')
         run: bundle exec fastlane release
+        working-directory: fastlane
         env:
           GOOGLE_PLAY_JSON_KEY: ${{ secrets.GOOGLE_PLAY_JSON_KEY }}
           SIGNING_KEY_STORE_PASSWORD: ${{ secrets.SIGNING_KEY_STORE_PASSWORD }}
