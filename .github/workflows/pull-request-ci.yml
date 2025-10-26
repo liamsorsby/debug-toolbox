@@ -1,4 +1,6 @@
 name: Pull Request CI - Basic tests
+permissions:
+  contents: read
 
 on:
   workflow_dispatch:
