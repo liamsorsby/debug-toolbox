@@ -23,7 +23,7 @@ platform :android do
       app: ENV['FIREBASE_APP_ID'],
       firebase_cli_token: ENV['FIREBASE_TOKEN'],
       release_notes: "Preview build from master",
-      groups: "testers"
+      groups: "testers",
       apk_path: "app/build/outputs/apk/debug/app-debug.apk"
     )
   end
