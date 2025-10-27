@@ -11,10 +11,10 @@
       <SelectionState runConfigName="DebugScreenTest">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="drawerContainsMainSections()">
+      <SelectionState runConfigName="debugScreenAppearance()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="debugScreenAppearance()">
+      <SelectionState runConfigName="clickingDNSTileNavigates()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>
