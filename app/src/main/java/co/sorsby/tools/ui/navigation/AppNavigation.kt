@@ -16,6 +16,7 @@ import co.sorsby.tools.ui.models.NavigationItem
 import co.sorsby.tools.ui.models.Screen
 import co.sorsby.tools.ui.screens.debug.DebugScreen
 import co.sorsby.tools.ui.screens.dns.DnsLookupScreen
+import co.sorsby.tools.ui.screens.home.HomeScreen
 import co.sorsby.tools.ui.screens.network.NetworkDebugScreen
 import co.sorsby.tools.ui.screens.settings.SettingsScreen
 import co.sorsby.tools.ui.screens.settings.SettingsViewModel
@@ -48,9 +49,7 @@ val bottomNavItems =
 @Composable
 fun AppNavHost(navController: NavHostController) {
     NavHost(navController = navController, startDestination = Screen.Home.route) {
-        composable(Screen.Home.route) {
-            androidx.compose.material3.Text("Home Screen")
-        }
+        composable(Screen.Home.route) { HomeScreen(navController) }
         composable(Screen.Http.route) { NetworkDebugScreen() }
         composable(Screen.Dns.route) { DnsLookupScreen() }
         composable(Screen.Debug.route) { DebugScreen() }

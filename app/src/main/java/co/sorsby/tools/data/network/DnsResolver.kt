@@ -10,6 +10,7 @@ import org.xbill.DNS.Lookup
 import org.xbill.DNS.Record
 import org.xbill.DNS.SimpleResolver
 import org.xbill.DNS.TextParseException
+import java.time.Duration
 
 class DnsResolver(
     private val userSettingsRepository: UserSettingsRepository,
@@ -30,7 +31,7 @@ class DnsResolver(
                         .filter { it.isNotBlank() }
                         .map {
                             SimpleResolver(it).apply {
-                                setTimeout(timeout)
+                                setTimeout(Duration.ofSeconds(timeout.toLong()))
                             }
                         }.toTypedArray()
 
