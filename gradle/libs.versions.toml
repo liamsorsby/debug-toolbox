@@ -20,7 +20,7 @@ ui = "1.9.4"
 ktlintPlugin = "13.1.0"
 googleServicesPlugin = "4.4.4"
 firebaseCrashlyticsPlugin = "3.0.6"
-firebaseBom = "34.4.0"
+firebaseBom = "34.5.0"
 datastore = "1.1.7"
 materialKolor = "4.0.2"
 
